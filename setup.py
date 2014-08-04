@@ -3,7 +3,7 @@ from setuptools import setup
 import re
 import sys
 
-def load_version(filename='git-slug/version.py'):
+def load_version(filename='git_slug/version.py'):
     "Parse a __version__ number from a source file"
     with open(filename) as source:
         text = source.read()
@@ -24,18 +24,24 @@ def load_rst(filename='docs/source/guide_content.rst'):
 setup(
     name="git-slug",
     version=load_version(),
-    packages=['git-slug'],
+    packages=['git_slug'],
     zip_safe=False,
     author="Aaron Iles",
     author_email="aaron.iles@gmail.com",
     url="http://git-slug.readthedocs.org",
-    description="",
+    description="A code name for every Git commit",
     long_description=open('README.rst').read(),
     # long_description=load_rst(),
     license="ASL",
-    install_requires = [],
+    install_requires = ['begins', 'pygit2'],
+    package_data = {'git_slug': ['index.sense']},
+    entry_points = {
+        'console_scripts': [
+            'git-slug = git_slug:main.start'
+        ]
+    },
     classifiers = [
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
