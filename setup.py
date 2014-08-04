@@ -33,8 +33,8 @@ setup(
     long_description=open('README.rst').read(),
     # long_description=load_rst(),
     license="ASL",
-    install_requires = ['begins', 'pygit2'],
-    package_data = {'git_slug': ['index.sense']},
+    install_requires = ['begins', 'pygit2', 'jinja2'],
+    package_data = {'git_slug': ['index.sense', 'templates/*']},
     entry_points = {
         'console_scripts': [
             'git-slug = git_slug:main.start'

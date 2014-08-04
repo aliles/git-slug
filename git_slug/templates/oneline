@@ -1,0 +1,1 @@
+{{ commit.hex }} {{ wordnet.verb|capitalize }} {{ wordnet.noun|capitalize }}

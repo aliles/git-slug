@@ -5,6 +5,7 @@ import time
 
 import begin
 import pygit2
+import jinja2
 
 from git_slug.version import __version__
 from git_slug.wordnet import WordNet
@@ -12,9 +13,13 @@ from git_slug.wordnet import WordNet
 
 @begin.start
 @begin.logging
-def main(pretty='{c.hex} {w.verb} {w.noun}'):
+def main(pretty='oneline'):
     """Generate code name for each commit based on the commit's hash.
     """
+    logging.debug("Loading Jinja2 template ... %f", time.time())
+    loader = jinja2.PackageLoader('git_slug', 'templates')
+    env = jinja2.Environment(loader=loader)
+    template = env.get_template(pretty)
     logging.debug("Loading Git repository ... %f", time.time())
     repo = pygit2.Repository('.git')
     last = repo[repo.head.target]
@@ -23,5 +28,5 @@ def main(pretty='{c.hex} {w.verb} {w.noun}'):
     logging.debug("Walking Git repository ... %f", time.time())
     for commit in repo.walk(last.id, pygit2.GIT_SORT_TOPOLOGICAL):
         wordnet.seed(int(commit.hex, 16))
-        logging.info(pretty.format(c=commit, w=wordnet))
+        logging.info(template.render(commit=commit, wordnet=wordnet))
         sys.stdout.flush()
