@@ -73,6 +73,14 @@ class WordNet(object):
     def __getattr__(self, name):
         return self.get_word(name, filter_fn=self._filter)
 
+    def choice(self, seq):
+        """Choose a random element from a non-empty sequence."""
+        try:
+            i = self._chooser._randbelow(len(seq))
+        except ValueError:
+            raise IndexError('Cannot choose from an empty sequence')
+        return seq[i]
+
     def get_word(self, category, filter_fn=None):
         category = category.replace('.', '_')
         if '_' + category not in self.__dict__:
@@ -80,7 +88,9 @@ class WordNet(object):
             setattr(self, '_' + category, words)
         else:
             words = getattr(self, '_' + category, None)
-        return self._chooser.choice(list(filter(filter_fn, words)))
+        if filter_fn is None:
+            return self.choice(words)
+        return self.choice(list(filter(filter_fn, words)))
 
     def load_words(self, location=None):
         if location is None:
