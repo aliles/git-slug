@@ -9,13 +9,13 @@ except ImportError:
 
 import doctest
 
-import git-slug
+import git_slug
 
 
 class TestGitSlug(unittest.TestCase):
 
     def test_has_version(self):
-        self.assertTrue(git-slug.__version__)
+        self.assertTrue(git_slug.__version__)
 
     def test_readme(self):
         doctest.testfile('../README.rst')

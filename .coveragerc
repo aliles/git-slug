@@ -1,5 +1,5 @@
 [run]
-source=git-slug
+source=git_slug
 
 [report]
-include=git-slug*
+include=git_slug*

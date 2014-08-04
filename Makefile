@@ -26,7 +26,7 @@ unittest:
 	coverage run -m unittest discover
 
 lint:
-	flake8 --exit-zero git-slug tests
+	flake8 --exit-zero git_slug tests
 
 coverage:
 	coverage report --show-missing

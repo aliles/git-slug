@@ -49,7 +49,7 @@ copyright = '2014, Aaron Iles'
 # built documents.
 #
 # The short X.Y version.
-from git-slug import __version__
+from git_slug import __version__
 version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
