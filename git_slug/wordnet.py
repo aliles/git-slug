@@ -66,12 +66,12 @@ class WordNet(object):
 
     def __init__(self, seed=None, filter_fn=None):
         self._chooser = random.Random(seed)
-        self._filter = filter_fn
         self._wordnet = defaultdict(set)
+        self.filter_fn = filter_fn
         self.load_words()
 
     def __getattr__(self, name):
-        return self.get_word(name, filter_fn=self._filter)
+        return self.get_word(name, filter_fn=self.filter_fn)
 
     def choice(self, seq):
         """Choose a random element from a non-empty sequence."""

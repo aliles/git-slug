@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 import logging
+import string
 import sys
 import time
 
@@ -13,7 +14,7 @@ from git_slug.wordnet import WordNet
 
 @begin.start
 @begin.logging
-def main(pretty='oneline'):
+def main(pretty='oneline', tautogram=False):
     """Generate code name for each commit based on the commit's hash.
     """
     logging.debug("Loading Jinja2 template ... %f", time.time())
@@ -28,5 +29,8 @@ def main(pretty='oneline'):
     logging.debug("Walking Git repository ... %f", time.time())
     for commit in repo.walk(last.id, pygit2.GIT_SORT_TOPOLOGICAL):
         wordnet.seed(int(commit.hex, 16))
+        if tautogram:
+            prefix = wordnet.choice(string.lowercase)
+            wordnet.filter_fn = lambda word: word[0] == prefix
         logging.info(template.render(commit=commit, wordnet=wordnet))
         sys.stdout.flush()
