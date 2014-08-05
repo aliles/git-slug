@@ -10,6 +10,7 @@ import jinja2
 
 from git_slug.version import __version__
 from git_slug.wordnet import WordNet
+from git_slug import filters
 
 
 @begin.start
@@ -20,6 +21,9 @@ def main(pretty='oneline', tautogram=False):
     logging.debug("Loading Jinja2 template ... %f", time.time())
     loader = jinja2.PackageLoader('git_slug', 'templates')
     env = jinja2.Environment(loader=loader)
+    env.filters['localtime'] = filters.localtime
+    env.filters['gmtime'] = filters.gmtime
+    env.filters['tsformat'] = filters.tsformat
     template = env.get_template(pretty)
     logging.debug("Loading Git repository ... %f", time.time())
     repo = pygit2.Repository('.git')
