@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 import logging
+import os
 import string
 import sys
 import time
@@ -11,6 +12,17 @@ import jinja2
 from git_slug.version import __version__
 from git_slug.wordnet import WordNet
 from git_slug import filters
+
+
+def find_git(start=os.curdir):
+    child = None
+    current = os.path.abspath(start)
+    while current != child:
+        possible = os.path.join(current, '.git')
+        if os.path.isdir(possible):
+            return possible
+        child = current
+        current, _ = os.path.split(current)
 
 
 @begin.start
@@ -26,7 +38,7 @@ def main(pretty='oneline', tautogram=False):
     env.filters['tsformat'] = filters.tsformat
     template = env.get_template(pretty)
     logging.debug("Loading Git repository ... %f", time.time())
-    repo = pygit2.Repository('.git')
+    repo = pygit2.Repository(find_git())
     last = repo[repo.head.target]
     logging.debug("Loading Wordnet database ... %f", time.time())
     wordnet = WordNet()
