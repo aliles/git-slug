@@ -1,0 +1,6 @@
+commit: {{ commit.hex }}
+Author: {{ commit.author.name }} <{{ commit.author.email }}>
+Date: {{ commit.author.time|localtime|tsformat }}
+
+    {{ wordnet.verb|capitalize }} {{ wordnet.noun|capitalize }}: {{ commit.message.replace('\n', '\n    ')|trim }}
+

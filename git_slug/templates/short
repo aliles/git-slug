@@ -1,5 +1,5 @@
 commit: {{ commit.hex }}
 Author: {{ commit.author.name }} <{{ commit.author.email }}>
 
-    {{ wordnet.verb|capitalize }} {{ wordnet.noun|capitalize }}
+    {{ wordnet.verb|capitalize }} {{ wordnet.noun|capitalize }}: {{ commit.message.split('\n')|first|trim }}
 
